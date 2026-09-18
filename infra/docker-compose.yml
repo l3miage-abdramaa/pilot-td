@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: pilottd-postgres
+    environment:
+      POSTGRES_DB: pilottd
+      POSTGRES_USER: pilottd
+      POSTGRES_PASSWORD: pilottd
+    ports:
+      - "5432:5432"
+    volumes:
+      - pilottd-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pilottd"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pilottd-data:
