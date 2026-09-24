@@ -12,4 +12,11 @@ en écrivant dans ~/.bashrc, lu à chaque ouverture de terminal.
 
 ## WSL
 Linux sans interface graphique. Le navigateur et Docker Desktop
-vivent côté Windows. Même situation qu'un serveur en production.
+vivent côté Windows. Même situation qu'un serveur en production. 
+
+
+Spring Boot 4 a déplacé ses classes internes : les recettes de la version 3 ne marchent plus.
+Quand un conteneur s'arrête, docker compose logs donne la cause, et souvent la solution.
+PostgreSQL 18 veut son volume sur /var/lib/postgresql.
+Les secrets ne vivent jamais dans le code, mais dans des variables d'environnement.
+La boucle complète : branche, commits, Pull Request, revue, correction, fusion.
