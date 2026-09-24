@@ -1,5 +1,7 @@
 # PILOT-TD
 
+[![CI](https://github.com/l3miage-abdramaa/pilot-td/actions/workflows/ci.yml/badge.svg)](https://github.com/l3miage-abdramaa/pilot-td/actions/workflows/ci.yml)
+
 Application de suivi des projets d'une institution au Tchad :
 enregistrement des projets, suivi de l'avancement par étapes,
 et tableau de bord pour la direction.
