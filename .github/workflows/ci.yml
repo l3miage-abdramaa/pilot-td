@@ -11,10 +11,10 @@ jobs:
         name: Backend
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
 
             - name: Installer Java 25
-              uses: actions/setup-java@v4
+              uses: actions/setup-java@v5
               with:
                 java-version: '25'
                 distribution: 'temurin'
@@ -28,10 +28,10 @@ jobs:
         name: Frontend
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
 
             - name: Installer Node 24
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@v5
               with:
                 node-version: '24'
                 cache: 'npm'
@@ -43,7 +43,7 @@ jobs:
 
             - name: Lancer les tests
               working-directory: frontend
-              run: npm test -- --run
+              run: npm test -- --no-watch
             
             - name: Compiler
               working-directory: frontend
