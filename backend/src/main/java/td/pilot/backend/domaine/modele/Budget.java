@@ -1,7 +1,7 @@
 package td.pilot.backend.domaine.modele;
 
-
 import java.util.Objects;
+
 
 public record Budget(long montant) {
 
