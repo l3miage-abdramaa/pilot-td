@@ -23,7 +23,6 @@ class ArchitectureTest {
                             "org.hibernate..")
                     .because("le domaine doit rester independant du framework (TASK-002)");
 
-    // TODO : une seconde regle, le domaine ne depend pas de la couche infrastructure
     @ArchTest
     static final ArchRule leDomaineNeDependPasDeLInfrastructure =
             noClasses()
