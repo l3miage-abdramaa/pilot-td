@@ -31,4 +31,12 @@ class ArchitectureTest {
                     .resideInAnyPackage(
                             "td.pilot.backend.infrastructure..")
                     .because("le domaine doit rester independant de l'infrastructure (TASK-002)");
+
+
+        @ArchTest
+        static final ArchRule leDomaineNUtilisePasLombok =
+                noClasses()
+                        .that().resideInAPackage("..domaine..")
+                        .should().dependOnClassesThat().resideInAPackage("lombok..")
+                        .because("le domaine reste sans dependance externe");
 }

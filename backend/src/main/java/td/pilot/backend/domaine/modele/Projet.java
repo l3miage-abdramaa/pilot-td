@@ -1,5 +1,4 @@
 package td.pilot.backend.domaine.modele;
-
 import java.time.Instant;
 import java.util.Objects;
 
@@ -54,6 +53,44 @@ public class Projet {
         this.periodeInitiale = null;
         this.responsableId = null;
         this.dateModification = dateCreation;
+    } 
+
+        /** Constructeur complet, reserve a la reconstruction depuis la persistance. */
+    private Projet(ProjetId id, CodeProjet code, String intitule, String description,
+                   Budget budget, Periode periodePrevue, Periode periodeInitiale,
+                   ProvinceId provinceId, SecteurId secteurId, UtilisateurId responsableId,
+                   EtatProjet etat, Instant dateCreation, Instant dateModification) {
+
+        this.id = Objects.requireNonNull(id);
+        this.code = Objects.requireNonNull(code);
+        this.intitule = Objects.requireNonNull(intitule);
+        this.description = description == null ? "" : description;
+        this.budget = Objects.requireNonNull(budget);
+        this.periodePrevue = Objects.requireNonNull(periodePrevue);
+        this.periodeInitiale = periodeInitiale;
+        this.provinceId = Objects.requireNonNull(provinceId);
+        this.secteurId = Objects.requireNonNull(secteurId);
+        this.responsableId = responsableId;
+        this.etat = Objects.requireNonNull(etat);
+        this.dateCreation = Objects.requireNonNull(dateCreation);
+        this.dateModification = Objects.requireNonNull(dateModification);
+    }
+
+    /**
+     * Reconstruit un projet a partir de donnees deja persistees.
+     *
+     * RESERVE A LA COUCHE DE PERSISTANCE. Ne jamais utiliser pour creer
+     * ou modifier un projet : les regles metier ne sont pas rejouees ici.
+     */
+    public static Projet reconstituer(ProjetId id, CodeProjet code, String intitule,
+                                      String description, Budget budget, Periode periodePrevue,
+                                      Periode periodeInitiale, ProvinceId provinceId,
+                                      SecteurId secteurId, UtilisateurId responsableId,
+                                      EtatProjet etat, Instant dateCreation,
+                                      Instant dateModification) {
+        return new Projet(id, code, intitule, description, budget, periodePrevue,
+                periodeInitiale, provinceId, secteurId, responsableId, etat,
+                dateCreation, dateModification);
     }
 
     private static String exigerTexteNonVide(String valeur, String message) {
