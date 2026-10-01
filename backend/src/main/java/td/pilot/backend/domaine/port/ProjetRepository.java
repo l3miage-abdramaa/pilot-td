@@ -20,4 +20,6 @@ public interface ProjetRepository {
     List<Projet> rechercher(int page, int taille);
 
     long compter();
+
+    Optional<CodeProjet> dernierCodeDeLAnnee(int annee);
 }

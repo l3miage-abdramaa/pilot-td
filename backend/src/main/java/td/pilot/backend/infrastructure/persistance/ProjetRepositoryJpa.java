@@ -43,5 +43,11 @@ public class ProjetRepositoryJpa implements ProjetRepository {
     @Override
     public long compter() {
         return jpa.count();
+    } 
+
+    @Override
+    public Optional<CodeProjet> dernierCodeDeLAnnee(int annee) {
+        return jpa.trouverDernierCode("PRJ-%d-%%".formatted(annee))
+                .map(CodeProjet::new);
     }
 }
