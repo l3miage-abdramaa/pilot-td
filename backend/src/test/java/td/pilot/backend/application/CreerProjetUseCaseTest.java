@@ -9,10 +9,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import td.pilot.backend.domaine.modele.ReferenceInconnueException;
 import td.pilot.backend.domaine.modele.CodeProjet;
 import td.pilot.backend.domaine.modele.Projet;
 import td.pilot.backend.domaine.modele.ProjetId;
 import td.pilot.backend.domaine.port.ProjetRepository;
+import td.pilot.backend.domaine.port.ReferentielRepository;
+import td.pilot.backend.domaine.modele.ProvinceId;
+import td.pilot.backend.domaine.modele.SecteurId;
 import td.pilot.backend.domaine.modele.EtatProjet;
 
 class CreerProjetUseCaseTest {
@@ -55,12 +60,21 @@ class CreerProjetUseCaseTest {
                 LocalDate.of(2027, 10, 31),
                 UUID.randomUUID(),
                 UUID.randomUUID());
+    } 
+
+
+    /** Faux referentiel : tout existe, sauf ce qu'on declare absent. */
+    private static class ReferentielEnMemoire implements ReferentielRepository {
+        boolean toutExiste = true;
+
+        @Override public boolean provinceExiste(ProvinceId id) { return toutExiste; }
+        @Override public boolean secteurExiste(SecteurId id) { return toutExiste; }
     }
 
     @Test
     void creeLePremierProjetAvecLeCode001() {
         DepotEnMemoire depot = new DepotEnMemoire();
-        CreerProjetUseCase useCase = new CreerProjetUseCase(depot);
+        CreerProjetUseCase useCase = new CreerProjetUseCase(depot, new ReferentielEnMemoire());
         ProjetId id = useCase.executer(commande("Premier projet"), REFERENCE);
         Projet projet = depot.parId(id).orElseThrow();
         assertEquals(new CodeProjet("PRJ-2026-001"), projet.code());
@@ -69,7 +83,7 @@ class CreerProjetUseCaseTest {
     @Test
     void incrementeLeCodeAuProjetSuivant() {
         DepotEnMemoire depot = new DepotEnMemoire();
-        CreerProjetUseCase useCase = new CreerProjetUseCase(depot);
+        CreerProjetUseCase useCase = new CreerProjetUseCase(depot, new ReferentielEnMemoire());
         ProjetId premierId = useCase.executer(commande("Premier Projet"), REFERENCE);
         ProjetId deuxiemeId = useCase.executer(commande("Deuxieme Projet"), REFERENCE);
         Projet premierProjet = depot.parId(premierId).orElseThrow();
@@ -80,7 +94,7 @@ class CreerProjetUseCaseTest {
     @Test
     void leProjetCreeEstEnPreparation() {
         DepotEnMemoire depot = new DepotEnMemoire();
-        CreerProjetUseCase useCase = new CreerProjetUseCase(depot);
+        CreerProjetUseCase useCase = new CreerProjetUseCase(depot, new ReferentielEnMemoire());
         ProjetId id = useCase.executer(commande("Projet en preparation"), REFERENCE);
         Projet projet = depot.parId(id).orElseThrow(() -> new IllegalStateException("Projet non trouvé"));
         assertEquals(EtatProjet.EN_PREPARATION, projet.etat());
@@ -89,10 +103,25 @@ class CreerProjetUseCaseTest {
     @Test
     void enregistreLeProjetDansLeDepot() {
         DepotEnMemoire depot = new DepotEnMemoire();
-        CreerProjetUseCase useCase = new CreerProjetUseCase(depot);
+        CreerProjetUseCase useCase = new CreerProjetUseCase(depot, new ReferentielEnMemoire());
 
         useCase.executer(commande("Ecole primaire"), REFERENCE);
 
         assertEquals(1L, depot.compter());
+    } 
+
+
+    @Test
+    void refuseUneProvinceInconnue() {
+        DepotEnMemoire depot = new DepotEnMemoire();
+        ReferentielEnMemoire referentiel = new ReferentielEnMemoire();
+        referentiel.toutExiste = false;
+        CreerProjetUseCase useCase = new CreerProjetUseCase(depot, referentiel);
+
+        assertThrows(ReferenceInconnueException.class,
+                () -> useCase.executer(commande("Projet test"), REFERENCE));
+        assertEquals(0L, depot.compter());
     }
+
+
 }
