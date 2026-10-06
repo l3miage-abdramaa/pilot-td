@@ -1,0 +1,44 @@
+<h1>Projets</h1>
+
+@if (etat().statut === 'chargement') {
+  <p>Chargement...</p>
+}
+
+
+@if (etat(); as e) {
+  @if (e.statut === 'erreur') {
+    <p class="erreur">{{ e.message}}</p>
+  }
+
+  @if (e.statut === 'succes') {
+    @if (e.page.contenu.length === 0) {
+      <p>Aucun projet enregistré pour le moment. </p>
+    } @else {
+      <table>
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Intitulé</th>
+            <th>Secteur</th>
+            <th>Province</th>
+            <th>État</th>
+            <th>Budget</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (projet of e.page.contenu; track projet.id) {
+            <tr>
+              <td>{{ projet.code }}</td>
+              <td>{{ projet.intitule }}</td>
+              <td>{{ projet.secteur }}</td>
+              <td>{{ projet.province }}</td>
+              <td>{{ libelleEtat(projet.etat) }}</td>
+              <td>{{ projet.budget | number:'1.0-0' }} FCFA</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <p>{{ e.page.total}} projet(s)</p>
+    }
+  }
+}
