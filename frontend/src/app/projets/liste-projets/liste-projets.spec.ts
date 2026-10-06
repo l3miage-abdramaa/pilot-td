@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { ListeProjets } from './liste-projets';
+import { provideRouter } from '@angular/router';
 
 describe('ListeProjets', () => {
   let httpMock: HttpTestingController;
@@ -9,7 +10,7 @@ describe('ListeProjets', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ListeProjets],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     }).compileComponents();
 
     httpMock = TestBed.inject(HttpTestingController);
@@ -36,7 +37,7 @@ describe('ListeProjets', () => {
     expect(texte).toContain('En préparation');
   });
 
-  
+
   it('affiche un message quand la liste est vide', async () => {
     const fixture = TestBed.createComponent(ListeProjets);
     await fixture.whenStable();

@@ -21,7 +21,7 @@ export class CreerProjet implements OnInit {
   protected readonly envoiEnCours = signal(false);
   protected readonly erreur = signal<string | null>(null);
 
-  protected readonly formulaire = this.fb.nonNullable.group({
+  readonly formulaire = this.fb.nonNullable.group({
     intitule: ['', [Validators.required, Validators.maxLength(255)]],
     description: [''],
     budget: [0, [Validators.required, Validators.min(0)]],
@@ -52,7 +52,7 @@ export class CreerProjet implements OnInit {
         this.erreur.set(e.error?.detail ?? 'La création a échoué.');
       },
     });
-  } 
+  }
 
 
   protected annuler(): void {
