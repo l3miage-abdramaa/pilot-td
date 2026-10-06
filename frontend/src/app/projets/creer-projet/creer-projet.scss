@@ -1,0 +1,14 @@
+.champ {
+  margin-bottom: 1rem;
+}
+
+.champ label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.erreur-champ, .erreur {
+  color: #c53030;
+  font-size: 0.875rem;
+}

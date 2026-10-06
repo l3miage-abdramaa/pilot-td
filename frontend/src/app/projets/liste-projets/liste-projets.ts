@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { ProjetApi } from '../projet';
 import { EtatProjet, PageReponse, ProjetResume } from '../projet.model';
 
@@ -10,7 +11,7 @@ type EtatListe =
 
 @Component({
   selector: 'app-liste-projets',
-  imports: [DecimalPipe],
+  imports: [DecimalPipe,RouterLink],
   templateUrl: './liste-projets.html',
   styleUrl: './liste-projets.scss',
 })

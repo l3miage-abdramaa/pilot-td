@@ -1,0 +1,81 @@
+<h1>Nouveau projet</h1>
+
+<form [formGroup]="formulaire" (ngSubmit)="enregistrer()">
+
+  <div class="champ">
+    <label for="intitule">Intitulé du projet *</label>
+    <input id="intitule" type="text" formControlName="intitule"
+           placeholder="Ex : Construction école primaire">
+    @if (formulaire.controls.intitule.touched && formulaire.controls.intitule.invalid) {
+      <p class="erreur-champ">L'intitulé est obligatoire (255 caractères maximum).</p>
+    }
+  </div>
+
+  <div class="champ">
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description" rows="3"
+              placeholder="Décrivez les objectifs et le contexte du projet"></textarea>
+  </div>
+
+  <div class="champ">
+    <label for="secteur">Secteur *</label>
+    <select id="secteur" formControlName="secteurId">
+      <option value="">Sélectionner un secteur</option>
+      @for (secteur of secteurs(); track secteur.id) {
+        <option [value]="secteur.id">{{ secteur.nom }}</option>
+      }
+    </select>
+    @if (formulaire.controls.secteurId.touched && formulaire.controls.secteurId.invalid) {
+      <p class="erreur-champ">Le secteur est obligatoire.</p>
+    }
+  </div>
+
+  <div class="champ">
+    <label for="province">Province *</label>
+    <select id="province" formControlName="provinceId">
+      <option value="">Sélectionner une province</option>
+      @for (province of provinces(); track province.id) {
+        <option [value]="province.id">{{ province.nom }}</option>
+      }
+    </select>
+    @if (formulaire.controls.provinceId.touched && formulaire.controls.provinceId.invalid) {
+      <p class="erreur-champ">La province est obligatoire.</p>
+    }
+  </div>
+
+  <div class="champ">
+    <label for="budget">Budget (FCFA) *</label>
+    <input id="budget" type="number" formControlName="budget" min="0">
+    @if (formulaire.controls.budget.touched && formulaire.controls.budget.invalid) {
+      <p class="erreur-champ">Le budget doit être positif ou nul.</p>
+    }
+  </div>
+
+  <div class="champ">
+    <label for="dateDebut">Date de début *</label>
+    <input id="dateDebut" type="date" formControlName="dateDebut">
+    @if (formulaire.controls.dateDebut.touched && formulaire.controls.dateDebut.invalid) {
+      <p class="erreur-champ">La date de début est obligatoire.</p>
+    }
+  </div>
+
+  <div class="champ">
+    <label for="dateFin">Date de fin *</label>
+    <input id="dateFin" type="date" formControlName="dateFin">
+    @if (formulaire.controls.dateFin.touched && formulaire.controls.dateFin.invalid) {
+      <p class="erreur-champ">La date de fin est obligatoire.</p>
+    }
+  </div>
+
+  @if (erreur(); as message) {
+    <p class="erreur">{{ message }}</p>
+  }
+
+  <div class="actions">
+    <button type="button" (click)="annuler()">Annuler</button>
+    <button type="submit" [disabled]="envoiEnCours()">
+      {{ envoiEnCours() ? 'Enregistrement…' : 'Enregistrer' }}
+    </button>
+  </div>
+
+</form>
