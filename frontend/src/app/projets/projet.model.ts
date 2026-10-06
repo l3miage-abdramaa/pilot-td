@@ -18,3 +18,19 @@ export interface PageReponse<T> {
   taille: number;
   total: number;
 }
+
+
+export interface ReferenceResume {
+  id: string;
+  nom: string;
+}
+
+export interface CreerProjetRequete {
+  intitule: string;
+  description: string;
+  budget: number;
+  dateDebut: string;
+  dateFin: string;
+  provinceId: string;
+  secteurId: string;
+}
